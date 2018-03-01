@@ -18,6 +18,7 @@
     var width = 320;
     var radius = 15;
     var distance = 40;
+    var lastCircleSelected;
     var jsonCircles = [
         { "x_axis": 25, "y_axis": 25},
         { "x_axis": 25, "y_axis": 25 + distance*1},
@@ -30,13 +31,25 @@
         { "x_axis": 290, "y_axis": 25 + distance*2},
         { "x_axis": 290, "y_axis": 25 + distance*3},
     ];
+    function reloadSavedData () {
+        var data = localStorage.getItem('data');
+        var form = document.getElementById('form');
+        var inputs = form.getElementsByTagName('input');
+        if(data) {
+            data = JSON.parse(data);
+            for(var prop in data) {
+                if(data[prop]) {
+                    inputs[parseInt(prop)].value = data[prop];
+                }
+            }
+        }
+    };
     window.onload = function() {
-        var svgContainer = d3.select("body").append("svg");
+        reloadSavedData();
+        var svgContainer = d3.select("#svg").append("svg");
         svgContainer
-        .attr("width", width)
-        .attr("height", height);
-        console.log('XD');
-
+            .attr("width", width)
+            .attr("height", height);
         svgContainer.append("rect")
             .attr("width", "100%")
             .attr("height", "100%")
@@ -55,10 +68,11 @@
             .enter()
             .append('circle');
         circles.on('click', function(d, i) {
-             var circle = d3.select(circles[0][i]);
+            circles.style('fill', 'blue');
+            var circle = d3.select(circles[0][i]);
+            lastCircleSelected = circle;
             circle.style('fill', 'green');
         });
-
         var circlesAttributes = circles
             .attr('cx', function(d) {
                 return d.x_axis;
@@ -69,7 +83,35 @@
             .attr('r', radius)
             .style('fill', 'blue');
     }
+    function save(){
+        var form = document.getElementById('form');
+        var inputs = form.getElementsByTagName('input');
+        var length = inputs.length;
+        var data = {};
+        for(var i = 0 ; i < inputs.length ; i++) {
+            var input = inputs[i];
+            var value = input.value;
+            if(value) {
+                data[i] = value;
+            }
+        }
+        localStorage.setItem('data', JSON.stringify(data));
+    }
 </script>
 <body>
+    <div id="svg"></div>
+    <div id="form">
+        <input type="text" placeholder="1er asiento"><br>
+        <input type="text" placeholder="2do asiento"><br>
+        <input type="text" placeholder="3er asiento"><br>
+        <input type="text" placeholder="4to asiento"><br>
+        <input type="text" placeholder="5to asiento"><br>
+        <input type="text" placeholder="6to asiento"><br>
+        <input type="text" placeholder="7mo asiento"><br>
+        <input type="text" placeholder="8vo asiento"><br>
+        <input type="text" placeholder="9no asiento"><br>
+        <input type="text" placeholder="10mo asiento"><br>
+        <button onclick="save()">Salvar</button>
+    </div>
 </body>
 </html>
