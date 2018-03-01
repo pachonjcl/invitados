@@ -16,19 +16,19 @@
 <script>
     var height = 180;
     var width = 320;
-    var radius = 35;
-    var distance = 80;
+    var radius = 15;
+    var distance = 40;
     var jsonCircles = [
-        { "x_axis": 50, "y_axis": 50},
-        { "x_axis": 50, "y_axis": 50 + distance*1},
-        { "x_axis": 50, "y_axis": 50 + distance*2},
-        { "x_axis": 50, "y_axis": 50 + distance*3},
-        { "x_axis": 150, "y_axis": 50 + distance*3},
-        { "x_axis": 480, "y_axis": 50 + distance*3},
-        { "x_axis": 580, "y_axis": 50},
-        { "x_axis": 580, "y_axis": 50 + distance*1},
-        { "x_axis": 580, "y_axis": 50 + distance*2},
-        { "x_axis": 580, "y_axis": 50 + distance*3},
+        { "x_axis": 25, "y_axis": 25},
+        { "x_axis": 25, "y_axis": 25 + distance*1},
+        { "x_axis": 25, "y_axis": 25 + distance*2},
+        { "x_axis": 25, "y_axis": 25 + distance*3},
+        { "x_axis": 75, "y_axis": 25 + distance*3},
+        { "x_axis": 240, "y_axis": 25 + distance*3},
+        { "x_axis": 290, "y_axis": 25},
+        { "x_axis": 290, "y_axis": 25 + distance*1},
+        { "x_axis": 290, "y_axis": 25 + distance*2},
+        { "x_axis": 290, "y_axis": 25 + distance*3},
     ];
     window.onload = function() {
         var svgContainer = d3.select("body").append("svg");
