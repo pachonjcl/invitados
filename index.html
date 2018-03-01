@@ -10,17 +10,51 @@
             background-color: blue;
         }
     </style>
+    <script src="js/d3.js"></script>
+    <script src="js/angular.js"></script>
 </head>
 <script>
-    var height = 720;
-    var width = 1280;
+    var height = 360;
+    var width = 640;
+    var radius = 35;
+    var distance = 80;
+    var jsonCircles = [
+        { "x_axis": 50, "y_axis": 50},
+        { "x_axis": 50, "y_axis": 50 + distance*1},
+        { "x_axis": 50, "y_axis": 50 + distance*2},
+        { "x_axis": 50, "y_axis": 50 + distance*3},
+        { "x_axis": 150, "y_axis": 50 + distance*3},
+        { "x_axis": 480, "y_axis": 50 + distance*3},
+        { "x_axis": 580, "y_axis": 50},
+        { "x_axis": 580, "y_axis": 50 + distance*1},
+        { "x_axis": 580, "y_axis": 50 + distance*2},
+        { "x_axis": 580, "y_axis": 50 + distance*3},
+    ];
     window.onload = function() {
-        var main = document.getElementById('main');
-        main.style = 'height:'+ height +'px; width:'+ width +'px;';
+        var svgContainer = d3.select("body").append("svg");
+        svgContainer
+        .attr("width", width)
+        .attr("height", height);
+        svgContainer.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "gray");
+        var circles = svgContainer
+            .selectAll('circles')
+            .data(jsonCircles)
+            .enter()
+            .append('circle');
+        var circlesAttributes = circles
+            .attr('cx', function(d) {
+                return d.x_axis;
+            })
+            .attr('cy', function(d) {
+                return d.y_axis;
+            })
+            .attr('r', radius)
+            .style('fill', 'blue');
     }
 </script>
 <body>
-    <div id="main">
-    </div>
 </body>
 </html>
