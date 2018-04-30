@@ -5,25 +5,35 @@ app.controller('InvitadosCtrl', function (InvitadosService) {
 
     var currentTableNumber;
 
-    ctrl.getTotal = function () {
+    function getNumberByTable(i) {
+        var data = localStorage.getItem('data' + i);
+        data = JSON.parse(data);
         var total = 0;
-        for (var i = 0; i < 10; i++) {
-            var data = localStorage.getItem('data' + i);
-            data = JSON.parse(data);
-            if (data) {
-                for (var j = 0; j < 20; j++) {
-                    if (data[j]) {
-                        total++;
-                    }
+        if (data) {
+            for (var j = 0; j < 20; j++) {
+                if (data[j]) {
+                    total++;
                 }
             }
         }
         return total;
     }
 
+    ctrl.getTotal = function () {
+        var total = 0;
+        for (var i = 0; i < 10; i++) {
+            total += getNumberByTable(i);
+        }
+        return total;
+    }
+
     ctrl.$onInit = function () {
+        var invitedByTable = [];
+        for (var i = 0; i < 10; i++) {
+            invitedByTable.push(getNumberByTable(i));
+        }
         InvitadosService.init(ctrl);
-        InvitadosService.drawTable();
+        InvitadosService.drawTable(invitedByTable);
     }
 
     ctrl.reloadSavedData = function (x) {

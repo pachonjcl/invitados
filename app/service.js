@@ -23,11 +23,11 @@ app.service('InvitadosService', function () {
         { "x_axis": 290, "y_axis": 25 + distance * 3 },
     ];
 
-    self.init = function(ctrl) {
+    self.init = function (ctrl) {
         self.ctrl = ctrl;
     }
- 
-    self.drawTable = function () {
+
+    self.drawTable = function (invitedByTable) {
         var svgContainer = d3.select("#svg").append("svg");
         svgContainer
             .attr("width", width)
@@ -49,13 +49,31 @@ app.service('InvitadosService', function () {
             .data(jsonCircles)
             .enter()
             .append('circle');
-        circles.on('click', function (d, i) {
+        var texts = svgContainer
+            .selectAll('texts')
+            .data(jsonCircles)
+            .enter()
+            .append('text')
+            .attr('x', function (d, i) {
+                return d.x_axis - 5;
+            })
+            .attr('y', function (d, i) {
+                return d.y_axis + 5;
+            })
+            .attr('font-size', "20px")
+            .attr('fill', "black")
+            .text(function (d, i) {
+                return invitedByTable[i];
+            })
+        var clickHandler = function (d, i) {
             self.ctrl.reloadSavedData(i);
             circles.style('fill', 'blue');
             var circle = d3.select(circles[0][i]);
             lastCircleSelected = circle;
             circle.style('fill', 'green');
-        });
+        }
+        texts.on('click', clickHandler);
+        circles.on('click', clickHandler);
         var circlesAttributes = circles
             .attr('cx', function (d) {
                 return d.x_axis;
