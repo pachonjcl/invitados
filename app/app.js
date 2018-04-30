@@ -85,4 +85,11 @@ app.controller('InvitadosCtrl', function (InvitadosService) {
         InvitadosService.updateTexts(getInvitedByTable());
     }
 
+    ctrl.clear = function(i) {
+        var form = document.getElementById('form');
+        var inputs = form.getElementsByTagName('input');
+        var input = inputs[i-1];
+        input.value = '';
+    }
+
 });
