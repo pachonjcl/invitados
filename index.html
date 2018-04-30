@@ -14,7 +14,8 @@
     <div ng-controller="InvitadosCtrl as $ctrl">
         <div id="svg">
         </div>
-        Cantidad de Invitados: {{$ctrl.getTotal()}}
+        Cantidad de Invitados: {{$ctrl.getTotal()}}<br>
+        <button ng-click="$ctrl.save()">Salvar</button>
         <div>
             <label>Mesa</label>
             <input id="mesa" type="text" placeholder="Nombre de la Mesa"><br>
@@ -40,7 +41,6 @@
             <label>Asiento 18</label><input type="text" placeholder="asiento 18"><br>
             <label>Asiento 19</label><input type="text" placeholder="asiento 19"><br>
             <label>Asiento 20</label><input type="text" placeholder="asiento 20"><br>
-            <button ng-click="$ctrl.save()">Salvar</button>
         </div>
     </div>
 </body>
