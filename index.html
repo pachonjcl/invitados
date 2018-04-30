@@ -5,130 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Invitados</title>
-    <style>
-        #main {
-            background-color: blue;
-        }
-    </style>
     <script src="js/d3.js"></script>
     <script src="js/angular.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/service.js"></script>
 </head>
-<script>
-    var height = 180;
-    var width = 320;
-    var radius = 15;
-    var distance = 40;
-    var lastCircleSelected;
-    var currentTableNumber;
-    var jsonCircles = [
-        { "x_axis": 25, "y_axis": 25},
-        { "x_axis": 25, "y_axis": 25 + distance*1},
-        { "x_axis": 25, "y_axis": 25 + distance*2},
-        { "x_axis": 25, "y_axis": 25 + distance*3},
-        { "x_axis": 75, "y_axis": 25 + distance*3},
-        { "x_axis": 240, "y_axis": 25 + distance*3},
-        { "x_axis": 290, "y_axis": 25},
-        { "x_axis": 290, "y_axis": 25 + distance*1},
-        { "x_axis": 290, "y_axis": 25 + distance*2},
-        { "x_axis": 290, "y_axis": 25 + distance*3},
-    ];
-    function reloadSavedData (x) {
-        console.log(x);
-        var data = localStorage.getItem('data' + x);
-        var form = document.getElementById('form');
-        var inputs = form.getElementsByTagName('input');
-        var length = inputs.length;
-        for(var i = 0 ; i < length ; i++) {
-            inputs[i].value = '';
-        }
-        if(data) {
-            data = JSON.parse(data);
-            for(var prop in data) {
-                if(data[prop]) {
-                    inputs[parseInt(prop)].value = data[prop];
-                }
-            }
-        }
-    };
-    window.onload = function() {
-        var svgContainer = d3.select("#svg").append("svg");
-        svgContainer
-            .attr("width", width)
-            .attr("height", height);
-        svgContainer.append("rect")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("fill", "gray");
-        svgContainer.append("text")
-            .attr('x', 110)
-            .attr('y', 25)
-            .attr('font-size', "20px")
-            .attr('fill', "black")
-            .text(function() {
-                return 'Mesa Principal';
-            })
-        var circles = svgContainer
-            .selectAll('circles')
-            .data(jsonCircles)
-            .enter()
-            .append('circle');
-        circles.on('click', function(d, i) {
-            currentTableNumber = i;
-            reloadSavedData(i);
-            circles.style('fill', 'blue');
-            var circle = d3.select(circles[0][i]);
-            lastCircleSelected = circle;
-            circle.style('fill', 'green');
-        });
-        var circlesAttributes = circles
-            .attr('cx', function(d) {
-                return d.x_axis;
-            })
-            .attr('cy', function(d) {
-                return d.y_axis;
-            })
-            .attr('r', radius)
-            .style('fill', 'blue');
-    }
-    function save(){
-        var form = document.getElementById('form');
-        var inputs = form.getElementsByTagName('input');
-        var length = inputs.length;
-        var data = {};
-        for(var i = 0 ; i < inputs.length ; i++) {
-            var input = inputs[i];
-            var value = input.value;
-            if(value) {
-                data[i] = value;
-            }
-        }
-        localStorage.setItem('data' + currentTableNumber, JSON.stringify(data));
-    }
-</script>
-<body>
-    <div id="svg"></div>
-    <div id="form">
-        <input type="text" placeholder="asiento 1"><br>
-        <input type="text" placeholder="asiento 2"><br>
-        <input type="text" placeholder="asiento 3"><br>
-        <input type="text" placeholder="asiento 4"><br>
-        <input type="text" placeholder="asiento 5"><br>
-        <input type="text" placeholder="asiento 6"><br>
-        <input type="text" placeholder="asiento 7"><br>
-        <input type="text" placeholder="asiento 8"><br>
-        <input type="text" placeholder="asiento 9"><br>
-        <input type="text" placeholder="asiento 10"><br>
-        <input type="text" placeholder="asiento 11"><br>
-        <input type="text" placeholder="asiento 12"><br>
-        <input type="text" placeholder="asiento 13"><br>
-        <input type="text" placeholder="asiento 14"><br>
-        <input type="text" placeholder="asiento 15"><br>
-        <input type="text" placeholder="asiento 16"><br>
-        <input type="text" placeholder="asiento 17"><br>
-        <input type="text" placeholder="asiento 18"><br>
-        <input type="text" placeholder="asiento 19"><br>
-        <input type="text" placeholder="asiento 20"><br>
-        <button onclick="save()">Salvar</button>
+<body ng-app="invitadosApp">
+    <div ng-controller="InvitadosCtrl as $ctrl">
+        <div id="svg">
+        </div>
+        Cantidad de Invitados: {{$ctrl.getTotal()}}
+        <div id="form">
+            <input type="text" placeholder="asiento 1"><br>
+            <input type="text" placeholder="asiento 2"><br>
+            <input type="text" placeholder="asiento 3"><br>
+            <input type="text" placeholder="asiento 4"><br>
+            <input type="text" placeholder="asiento 5"><br>
+            <input type="text" placeholder="asiento 6"><br>
+            <input type="text" placeholder="asiento 7"><br>
+            <input type="text" placeholder="asiento 8"><br>
+            <input type="text" placeholder="asiento 9"><br>
+            <input type="text" placeholder="asiento 10"><br>
+            <input type="text" placeholder="asiento 11"><br>
+            <input type="text" placeholder="asiento 12"><br>
+            <input type="text" placeholder="asiento 13"><br>
+            <input type="text" placeholder="asiento 14"><br>
+            <input type="text" placeholder="asiento 15"><br>
+            <input type="text" placeholder="asiento 16"><br>
+            <input type="text" placeholder="asiento 17"><br>
+            <input type="text" placeholder="asiento 18"><br>
+            <input type="text" placeholder="asiento 19"><br>
+            <input type="text" placeholder="asiento 20"><br>
+            <button onclick="save()">Salvar</button>
+        </div>
     </div>
 </body>
 </html>
