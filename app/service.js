@@ -10,6 +10,8 @@ app.service('InvitadosService', function () {
 
     var lastCircleSelected;
 
+    var texts;
+
     var jsonCircles = [
         { "x_axis": 25, "y_axis": 25 },
         { "x_axis": 25, "y_axis": 25 + distance * 1 },
@@ -25,6 +27,13 @@ app.service('InvitadosService', function () {
 
     self.init = function (ctrl) {
         self.ctrl = ctrl;
+    }
+
+    self.updateTexts = function (invitedByTable) {
+        texts.data(invitedByTable)
+            .text(function (d) {
+                return d;
+            })
     }
 
     self.drawTable = function (invitedByTable) {
@@ -49,7 +58,7 @@ app.service('InvitadosService', function () {
             .data(jsonCircles)
             .enter()
             .append('circle');
-        var texts = svgContainer
+        texts = svgContainer
             .selectAll('texts')
             .data(jsonCircles)
             .enter()

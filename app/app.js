@@ -27,13 +27,17 @@ app.controller('InvitadosCtrl', function (InvitadosService) {
         return total;
     }
 
-    ctrl.$onInit = function () {
+    function getInvitedByTable() {
         var invitedByTable = [];
         for (var i = 0; i < 10; i++) {
             invitedByTable.push(getNumberByTable(i));
         }
+        return invitedByTable;
+    }
+
+    ctrl.$onInit = function () {
         InvitadosService.init(ctrl);
-        InvitadosService.drawTable(invitedByTable);
+        InvitadosService.drawTable(getInvitedByTable());
     }
 
     ctrl.reloadSavedData = function (x) {
@@ -78,6 +82,7 @@ app.controller('InvitadosCtrl', function (InvitadosService) {
             data['nombreMesa'] = nombreMesa;
         }
         localStorage.setItem('data' + currentTableNumber, JSON.stringify(data));
+        InvitadosService.updateTexts(getInvitedByTable());
     }
 
 });
