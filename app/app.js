@@ -22,7 +22,6 @@ app.controller('InvitadosCtrl', function (InvitadosService) {
     }
 
     ctrl.$onInit = function () {
-        ctrl.data = JSON.stringify(localStorage.getItem('data' + 0));
         InvitadosService.init(ctrl);
         InvitadosService.drawTable();
     }
